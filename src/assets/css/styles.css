@@ -1,0 +1,14 @@
+/* You can add global styles to this file, and also import other style files */
+
+.area {
+  fill: none;  
+  clip-path: url(#clip);
+}
+
+.zoom {
+  cursor: move;
+  fill: none;
+  pointer-events: all;
+}
+/*  stroke: blue;
+stroke-width: 1.5px;*/
