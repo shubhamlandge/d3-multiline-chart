@@ -9,7 +9,7 @@
 6 silly lifecycle brush-zoom@1.0.0~prestart: no script for prestart, continuing
 7 info lifecycle brush-zoom@1.0.0~start: brush-zoom@1.0.0
 8 verbose lifecycle brush-zoom@1.0.0~start: unsafe-perm in lifecycle true
-9 verbose lifecycle brush-zoom@1.0.0~start: PATH: C:\Users\shubham_landge\AppData\Roaming\npm\node_modules\npm\bin\node-gyp-bin;D:\d3 charts\d3js-angular2-example-master\05_brush_zoom\node_modules\.bin;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\MySQL\MySQL Utilities 1.6\;C:\Program Files\Git\cmd;C:\Program Files\Java\jdk1.8.0_144\bin;D:\apache-maven-3.5.0\bin;D:\Maven_Certificate;C:\Users\shubham_landge\AppData\Roaming\npm;C:\Program Files\nodejs\;C:\Users\shubham_landge\AppData\Roaming\npm
+9 verbose lifecycle brush-zoom@1.0.0~start: PATH: C:\Users\shubham_landge\AppData\Roaming\npm\node_modules\npm\bin\node-gyp-bin;D:\d3 charts\d3js-angular2-example-master\05_brush_zoom\node_modules\.bin;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\MySQL\MySQL Utilities 1.6\;C:\Program Files\Git\cmd;C:\Program Files\Java\jdk1.8.0_144\bin;D:\apache-maven-3.5.0\bin;D:\Maven_Certificate;C:\Users\shubham_landge\AppData\Roaming\npm;C:\Program Files\nodejs\;C:\Users\shubham_landge\AppData\Roaming\npm;C:\Program Files (x86)\Microsoft VS Code\bin
 10 verbose lifecycle brush-zoom@1.0.0~start: CWD: D:\d3 charts\d3js-angular2-example-master\05_brush_zoom
 11 silly lifecycle brush-zoom@1.0.0~start: Args: [ '/d /s /c', 'webpack-dev-server' ]
 12 verbose stack Error: kill ENOSYS
