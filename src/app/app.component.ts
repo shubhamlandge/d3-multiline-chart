@@ -9,7 +9,7 @@ import * as d3Brush from 'd3-brush';
 import * as d3Array from 'd3-array';
 import * as d3TimeFormat from 'd3-time-format';
 
-import { sp500, PPM } from './shared/data';
+import { ChemicalLevel } from './shared/data';
 
 export interface Margin {
     top: number;
@@ -20,21 +20,33 @@ export interface Margin {
 
 interface Stock {
     date: Date;
-    price: number;
+    value: number;
 }
 
 @Component({
     selector: 'app-root',
     template: `
-      <h1>{{title}}</h1>
-      <h2>{{subtitle}}</h2>
-      <svg width="960" height="500"></svg>
+    <h1>{{title}}</h1>
+    <svg width="960" height="500"></svg>
   `
 })
 export class AppComponent implements OnInit {
 
-    title: string = 'D3.js with Angular 2!';
-    subtitle: string = 'Brush & Zoom';
+    title: string = 'Multi-Line Brush & Zoom!';
+
+    periods= [
+        {"limit":"3 hours"},
+        {"limit":"6 hours"},
+        {"limit":"12 hours"},
+        {"limit":"1 day"},
+        {"limit":"3 days"},
+        {"limit":"1 week"},
+        {"limit":"2 week"},
+        {"limit":"last month"},
+        {"limit":"last 3 month"},
+        {"limit":"last 6 month"},
+        {"limit":"last year"}
+      ]
 
     private margin: Margin;
     private margin2: Margin;
@@ -43,7 +55,7 @@ export class AppComponent implements OnInit {
     private height: number;
     private height2: number;
 
-    private svg: any;     // TODO replace all `any` by the right type
+    private svg: any;
 
     private x: any;
     private x2: any;
@@ -63,7 +75,16 @@ export class AppComponent implements OnInit {
     private area2: any;
     private focus: any;
 
-    private parseDate = d3TimeFormat.timeParse('%b %Y');
+    //private parseDate = d3TimeFormat.timeParse('%b %Y');
+    private parseDate = d3TimeFormat.timeParse('%Y-%m-%dT%H:%M:%SZ');
+
+    private parseDataPH(data: any[]): Stock[] {
+        return data.map(v => <Stock>{ date: this.parseDate(v.date), value: v.value });
+    }
+
+    private parseDataPPM(data: any[]): Stock[] {
+        return data.map(v => <Stock>{ date: this.parseDate(v.date), value: v.value1 });
+    }
 
     constructor() {
     }
@@ -71,19 +92,13 @@ export class AppComponent implements OnInit {
     ngOnInit() {
         this.initMargins();
         this.initSvg();
-        this.drawChart(this.parseData(PPM), 'blue');
-        this.drawChart(this.parseData(sp500), 'red');
-        
-  
+        this.drawChart(this.parseDataPH(ChemicalLevel), 'blue');
+        this.drawChart(this.parseDataPPM(ChemicalLevel), 'red')
     }
 
     private initMargins() {
         this.margin = { top: 20, right: 20, bottom: 110, left: 40 };
         this.margin2 = { top: 430, right: 20, bottom: 30, left: 40 };
-    }
-
-    private parseData(data: any[]): Stock[] {
-        return data.map(v => <Stock>{ date: this.parseDate(v.date), price: v.price });
     }
 
     private initSvg() {
@@ -103,7 +118,7 @@ export class AppComponent implements OnInit {
         this.yAxis = d3Axis.axisLeft(this.y);
 
         this.brush = d3Brush.brushX()
-            .extent([[0, 0], [this.width, this.height2]])
+            .extent([[0, 0], [this.width, this.height]])//this.height2
             .on('brush end', this.brushed.bind(this));
 
         this.zoom = d3Zoom.zoom()
@@ -115,14 +130,13 @@ export class AppComponent implements OnInit {
         this.area = d3Shape.area()
             .curve(d3Shape.curveMonotoneX)
             .x((d: any) => this.x(d.date))
-            .y0(this.height)
-            .y1((d: any) => this.y(d.price));
+            .y((d: any) => this.y(d.value));
 
         this.area2 = d3Shape.area()
             .curve(d3Shape.curveMonotoneX)
             .x((d: any) => this.x2(d.date))
             .y0(this.height2)
-            .y1((d: any) => this.y2(d.price));
+            .y1((d: any) => this.y2(d.value));
 
         this.svg.append('defs').append('clipPath')
             .attr('id', 'clip')
@@ -162,11 +176,9 @@ export class AppComponent implements OnInit {
     private drawChart(data: Stock[], color: any) {
 
         this.x.domain(d3Array.extent(data, (d: Stock) => d.date));
-        this.y.domain([0, d3Array.max(data, (d: Stock) => d.price)]);
+        this.y.domain([0, d3Array.max(data, (d: Stock) => d.value)]);
         this.x2.domain(this.x.domain());
         this.y2.domain(this.y.domain());
-
-        //this.c10 = d3Scale.schemeCategory10;
 
         this.focus.append('path')
             .datum(data)
@@ -187,7 +199,7 @@ export class AppComponent implements OnInit {
             .datum(data)
             .attr('class', 'area')
             .attr('d', this.area2)
-            .attr('stroke', color); ;
+            .attr('stroke', color);
 
         this.context.append('g')
             .attr('class', 'axis axis--x')
